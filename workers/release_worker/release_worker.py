@@ -1,5 +1,6 @@
 #SPDX-License-Identifier: MIT
 import logging, os, sys, time, requests, json
+from workers.worker_git_integration import WorkerGitInterfaceable
 from datetime import datetime
 from multiprocessing import Process, Queue
 from urllib.parse import urlparse
@@ -8,9 +9,6 @@ import sqlalchemy as s
 from sqlalchemy import MetaData
 from sqlalchemy.ext.automap import automap_base
 from workers.worker_base import Worker
-
-#Breaks if doesn't inherit from GitInterfaceable
-from workers.worker_git_integration import WorkerGitInterfaceable
 
 #TODO - fully edit to match releases
 class ReleaseWorker(WorkerGitInterfaceable):
@@ -159,7 +157,7 @@ class ReleaseWorker(WorkerGitInterfaceable):
                         }
                     }
                 }
-            """ % (owner, repo, 10)
+            """ % (owner, repo, 100)
         else:
             query = """
                 {
@@ -184,7 +182,9 @@ class ReleaseWorker(WorkerGitInterfaceable):
                         }
                     }
                 }
-            """ % (owner, repo, 10)
+            """ % (owner, repo, 100)
+
+        self.logger.debug(f"query is: {query}")
 
         return query
 

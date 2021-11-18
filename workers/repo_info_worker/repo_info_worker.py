@@ -1,13 +1,11 @@
 #SPDX-License-Identifier: MIT
 import logging, os, sys, time, requests, json
+from workers.worker_git_integration import WorkerGitInterfaceable
 from datetime import datetime
 from multiprocessing import Process, Queue
 import pandas as pd
 import sqlalchemy as s
 from workers.worker_base import Worker
-#Breaks if inheritance is broken
-from workers.worker_git_integration import WorkerGitInterfaceable
-
 
 # NOTE: This worker primarily inserts rows into the REPO_INFO table, which serves the primary purposes of 
 # 1. Displaying discrete metadata like "number of forks" and how they change over time 

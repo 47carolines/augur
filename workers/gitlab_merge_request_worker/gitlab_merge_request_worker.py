@@ -1,13 +1,11 @@
 import logging, os, sys, time, requests, json
+from workers.worker_git_integration import WorkerGitInterfaceable
 from datetime import datetime
 from multiprocessing import Process, Queue
 import pandas as pd
 import sqlalchemy as s
 from workers.worker_base import Worker
 from urllib.parse import urlparse, quote
-
-#This class NEEDS to inherit from here.
-from workers.worker_git_integration import WorkerGitInterfaceable
 
 
 class GitlabMergeRequestWorker(WorkerGitInterfaceable):
@@ -382,8 +380,6 @@ class GitlabMergeRequestWorker(WorkerGitInterfaceable):
                     AND LOWER(data_source) = '{} api'
                     """.format(pr_src_id, platform))
 
-        self.logger.info("DEV_DEBUG:" + str(pr_src_id))
-        self.logger.info("DEV_DEBUG:" + str(platform))
         self.logger.info(idSQL)
 
         rs = pd.read_sql(idSQL, self.db, params={})
